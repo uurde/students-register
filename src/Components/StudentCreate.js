@@ -1,20 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, TextInput, Picker } from 'react-native';
-import { Button, CardSection } from '../Shared/Index';
 
-import { studentChange } from '../Actions/Index';
+import { Button, CardSection, Card, Spinner } from '../Shared/Index';
+import { studentChange, studentCreate } from '../Actions/Index';
 
 const Item = Picker.Item;
 class StudentCreate extends Component {
     clickSave() {
+        const { isim, soyisim, ogrencinumara, sube } = this.props;
 
+        this.props.studentCreate({ isim, soyisim, ogrencinumara, sube });
     };
+
+    renderButon() {
+        if (!this.props.loading) {
+            return <Button onPress={this.clickSave.bind(this)}>Kaydet</Button>;
+        }
+        return <Spinner size='small'></Spinner>;
+    }
 
     render() {
         const { inputStyle, viewStyle, pickerStyle } = styles;
         return (
-            <View style={viewStyle}>
+            <Card>
                 <CardSection>
                     <TextInput
                         placeholder="İsim"
@@ -46,9 +55,9 @@ class StudentCreate extends Component {
                     </Picker>
                 </CardSection>
                 <CardSection>
-                    <Button onPress={this.clickSave.bind(this)}>Kaydet</Button>
+                    {this.renderButon()}
                 </CardSection>
-            </View>
+            </Card>
         );
     }
 };
@@ -70,13 +79,14 @@ const styles = {
 };
 
 const mapStateToProps = ({ studentsListResponse }) => {
-    const { isim, soyisim, ogrencinumara, sube } = studentsListResponse;
+    const { isim, soyisim, ogrencinumara, sube, loading } = studentsListResponse;
     return {
         isim,
         soyisim,
         ogrencinumara,
-        sube
+        sube,
+        loading
     };
 };
 
-export default connect(mapStateToProps, { studentChange })(StudentCreate);
+export default connect(mapStateToProps, { studentChange, studentCreate })(StudentCreate);
