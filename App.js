@@ -1,10 +1,8 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import Main from './src/Main';
 
 export default function App() {
   return (
-    <View>
-      <Text>Öğrenci Kayıt Uygulaması</Text>
-    </View>
+    <Main></Main>
   );
 }
