@@ -21,7 +21,7 @@ class StudentCreate extends Component {
     }
 
     render() {
-        const { inputStyle, viewStyle, pickerStyle } = styles;
+        const { inputStyle, pickerStyle } = styles;
         return (
             <Card>
                 <CardSection>
@@ -68,10 +68,6 @@ const styles = {
         paddingLeft: 5,
         fontSize: 18,
         flex: 1
-    },
-    viewStyle: {
-        flex: 1,
-        backgroundColor: 'white'
     },
     pickerStyle: {
         flex: 1

@@ -1,41 +1,39 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { View, Text, ListView } from 'react-native';
+import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
+import ListItem from './ListItem';
 import { studentsListData } from '../Actions/Index';
 
 class StudentsList extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.props.studentsListData();
-    };
+    }
 
-    componentWillReceiveProps(nextProps) {
-        const ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2
-        });
 
-        this.dataSource = ds.cloneWithRows(nextProps.studentsArray);
-    };
+    renderRow({ item }) {
+        return <ListItem ogrenci={item} />;
+    }
 
     render() {
         return (
-            <View>
-                <Text> Öğrneci Listesi</Text>
-                <Text> Öğrneci Listesi</Text>
-                <Text> Öğrneci Listesi</Text>
-                <Text> Öğrneci Listesi</Text>
-            </View>
-        )
+            <FlatList
+                data={this.props.studentsArray}
+                renderItem={this.renderRow}
+                keyExtractor={(item, index) => index.toString()}
+            />
+
+        );
     }
 }
-
 const mapStateToProps = ({ studentDataResponse }) => {
-    const studentsArray = _.map(studentDataResponse.data, (val, uid) => {
-        return { ...value, uid };
+    // studentDataResponse
+    const studentsArray = _.map(studentDataResponse, (val, uid) => {
+        return { ...val, uid }; // { isim: ayse, soyisim: soyu, sube: 1c, uid: Kq9 }
     });
-
     return { studentsArray };
 };
+
 
 export default connect(mapStateToProps, { studentsListData })(StudentsList);
